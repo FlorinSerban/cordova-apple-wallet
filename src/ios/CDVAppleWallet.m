@@ -161,8 +161,12 @@ typedef void (^completedPaymentProcessHandler)(PKAddPaymentPassRequest *request)
     [dictionary setObject:@"" forKey:@"FPANID"];
     PKPassLibrary *passLib = [[PKPassLibrary alloc] init];
 
+    NSLog( @"AppleWallet Plugin: Start checkPairedDevicesBySuffix" );
     // find if credit/debit card is exist in any pass container e.g. iPad
     for (PKPaymentPass *pass in [passLib passesOfType:PKPassTypePayment]){
+        NSLog( @"AppleWallet Plugin: Check isInWallet" );
+        NSLog( @"AppleWallet Plugin: pass.primaryAccountNumberSuffix: '%@'", pass.primaryAccountNumberSuffix );
+        NSLog( @"AppleWallet Plugin: suffix: '%@'", suffix );
         if ([pass.primaryAccountNumberSuffix isEqualToString:suffix]) {
             [dictionary setObject:@"True" forKey:@"isInWallet"];
             [dictionary setObject:pass.primaryAccountIdentifier forKey:@"FPANID"];
@@ -172,6 +176,9 @@ typedef void (^completedPaymentProcessHandler)(PKAddPaymentPassRequest *request)
 
     // find if credit/debit card is exist in any remote pass container e.g. iWatch
     for (PKPaymentPass *remotePass in [passLib remotePaymentPasses]){
+        NSLog( @"AppleWallet Plugin: Check isInWatch" );
+        NSLog( @"AppleWallet Plugin: remotePass.primaryAccountNumberSuffix: '%@'", remotePass.primaryAccountNumberSuffix );
+        NSLog( @"AppleWallet Plugin: suffix: '%@'", suffix );
         if([remotePass.primaryAccountNumberSuffix isEqualToString:suffix]){
             [dictionary setObject:@"True" forKey:@"isInWatch"];
             [dictionary setObject:remotePass.primaryAccountIdentifier forKey:@"FPANID"];
