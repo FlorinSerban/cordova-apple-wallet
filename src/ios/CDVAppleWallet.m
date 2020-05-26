@@ -160,10 +160,10 @@ typedef void (^completedPaymentProcessHandler)(PKAddPaymentPassRequest *request)
     [dictionary setObject:@"False" forKey:@"isInWatch"];
     [dictionary setObject:@"" forKey:@"FPANID"];
     PKPassLibrary *passLib = [[PKPassLibrary alloc] init];
-    //NSArray<PKPass *> *paymentPasses = [passLib passesOfType:PKPassTypePayment];
+    NSArray<PKPass *> *paymentPasses = [passLib passesOfType:PKPassTypePayment];
 
     NSLog( @"AppleWallet Plugin: Start checkPairedDevicesBySuffix" );
-    //NSLog( @"AppleWallet Plugin: paymentPasses: '%@'",  paymentPasses);
+    NSLog( @"AppleWallet Plugin: paymentPasses: '%@'",  paymentPasses);
     // find if credit/debit card is exist in any pass container e.g. iPad
     for (PKPaymentPass *pass in [passLib passesOfType:PKPassTypePayment]){
         NSLog( @"AppleWallet Plugin: Check isInWallet" );
