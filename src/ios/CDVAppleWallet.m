@@ -95,6 +95,8 @@ typedef void (^completedPaymentProcessHandler)(PKAddPaymentPassRequest *request)
     Boolean cardAddedtoPasses = false;
     Boolean cardAddedtoRemotePasses = false;
 
+    NSLog(cardAddedtoPasses ? @"AppleWallet Plugin: initial cardAddedtoPasses: true" : @"AppleWallet Plugin: initial cardAddedtoPasses: false");
+
     PKPassLibrary *passLibrary = [[PKPassLibrary alloc] init];
     NSArray<PKPass *> *paymentPasses = [passLibrary passesOfType:PKPassTypePayment];
     for (PKPass *pass in paymentPasses) {
@@ -123,6 +125,8 @@ typedef void (^completedPaymentProcessHandler)(PKAddPaymentPassRequest *request)
         cardAddedtoRemotePasses = true;
 
     cardEligible = !cardAddedtoPasses || !cardAddedtoRemotePasses;
+
+    NSLog(cardAddedtoPasses ? @"AppleWallet Plugin: initial cardAddedtoPasses: true" : @"AppleWallet Plugin: initial cardAddedtoPasses: false");
 
     CDVPluginResult *pluginResult;
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:cardEligible];
