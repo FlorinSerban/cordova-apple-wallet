@@ -421,6 +421,11 @@ typedef void (^completedPaymentProcessHandler)(PKAddPaymentPassRequest *request)
         NSString* wrappedKey = [options objectForKey:@"wrappedKey"];
         NSString* ephemeralPublicKey = [options objectForKey:@"ephemeralPublicKey"];
 
+        NSLog( @"AppleWallet Plugin: activationData: '%@'", activationData );
+        NSLog( @"AppleWallet Plugin: encryptedPassData: '%@'", encryptedPassData );
+        NSLog( @"AppleWallet Plugin: wrappedKey: '%@'", wrappedKey );
+        NSLog( @"AppleWallet Plugin: ephemeralPublicKey: '%@'", ephemeralPublicKey );
+
         request.activationData = [[NSData alloc] initWithBase64EncodedString:activationData options:0]; //[activationData dataUsingEncoding:NSUTF8StringEncoding];
         request.encryptedPassData = [[NSData alloc] initWithBase64EncodedString:encryptedPassData options:0];
         if (wrappedKey != nil){
