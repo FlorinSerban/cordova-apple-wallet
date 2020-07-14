@@ -390,7 +390,7 @@ typedef void (^completedPaymentProcessHandler)(PKAddPaymentPassRequest *request)
     } else {
         PKAddPaymentPassRequest* request = [[PKAddPaymentPassRequest alloc] init];
         NSDictionary* options = [arguments objectAtIndex:0];
-
+        
         NSString* activationData = [options objectForKey:@"activationData"];
         NSString* encryptedPassData = [options objectForKey:@"encryptedPassData"];
         NSString* wrappedKey = [options objectForKey:@"wrappedKey"];
@@ -404,7 +404,7 @@ typedef void (^completedPaymentProcessHandler)(PKAddPaymentPassRequest *request)
         if (ephemeralPublicKey != nil){
             request.ephemeralPublicKey = [[NSData alloc] initWithBase64EncodedString:ephemeralPublicKey options:0];
         }   
-             
+
         // Issue request
         self.completionHandler(request);
         self.completionCallbackId = command.callbackId;
