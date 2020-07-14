@@ -398,10 +398,10 @@ typedef void (^completedPaymentProcessHandler)(PKAddPaymentPassRequest *request)
 
         request.activationData = [[NSData alloc] initWithBase64EncodedString:activationData options:0]; //[activationData dataUsingEncoding:NSUTF8StringEncoding];
         request.encryptedPassData = [[NSData alloc] initWithBase64EncodedString:encryptedPassData options:0];
-        if (wrappedKey != nil){
+        if (wrappedKey){
             request.wrappedKey = [[NSData alloc] initWithBase64EncodedString:wrappedKey options:0];
         }
-        if (ephemeralPublicKey != nil){
+        if (ephemeralPublicKey){
             request.ephemeralPublicKey = [[NSData alloc] initWithBase64EncodedString:ephemeralPublicKey options:0];
         }   
 
