@@ -95,8 +95,6 @@ typedef void (^completedPaymentProcessHandler)(PKAddPaymentPassRequest *request)
     Boolean cardAddedtoPasses = false;
     Boolean cardAddedtoRemotePasses = false;
 
-    NSLog(cardAddedtoPasses ? @"AppleWallet Plugin: initial cardAddedtoPasses: true" : @"AppleWallet Plugin: initial cardAddedtoPasses: false");
-
     PKPassLibrary *passLibrary = [[PKPassLibrary alloc] init];
     NSArray<PKPass *> *paymentPasses = [passLibrary passesOfType:PKPassTypePayment];
     for (PKPass *pass in paymentPasses) {
@@ -125,8 +123,6 @@ typedef void (^completedPaymentProcessHandler)(PKAddPaymentPassRequest *request)
         cardAddedtoRemotePasses = true;
 
     cardEligible = !cardAddedtoPasses || !cardAddedtoRemotePasses;
-
-    NSLog(cardAddedtoPasses ? @"AppleWallet Plugin: initial cardAddedtoPasses: true" : @"AppleWallet Plugin: initial cardAddedtoPasses: false");
 
     CDVPluginResult *pluginResult;
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:cardEligible];
@@ -166,13 +162,8 @@ typedef void (^completedPaymentProcessHandler)(PKAddPaymentPassRequest *request)
     PKPassLibrary *passLib = [[PKPassLibrary alloc] init];
     NSArray<PKPass *> *paymentPasses = [passLib passesOfType:PKPassTypePayment];
 
-    NSLog( @"AppleWallet Plugin: Start checkPairedDevicesBySuffix" );
-    NSLog( @"AppleWallet Plugin: paymentPasses: '%@'",  paymentPasses);
     // find if credit/debit card is exist in any pass container e.g. iPad
     for (PKPaymentPass *pass in [passLib passesOfType:PKPassTypePayment]){
-        NSLog( @"AppleWallet Plugin: Check isInWallet" );
-        NSLog( @"AppleWallet Plugin: pass.primaryAccountNumberSuffix: '%@'", pass.primaryAccountNumberSuffix );
-        NSLog( @"AppleWallet Plugin: suffix: '%@'", suffix );
         if ([pass.primaryAccountNumberSuffix isEqualToString:suffix]) {
             [dictionary setObject:@"True" forKey:@"isInWallet"];
             [dictionary setObject:pass.primaryAccountIdentifier forKey:@"FPANID"];
@@ -182,9 +173,6 @@ typedef void (^completedPaymentProcessHandler)(PKAddPaymentPassRequest *request)
 
     /*for (PKPass *pass in paymentPasses) {
         PKPaymentPass *paymentPass = [pass paymentPass];
-        NSLog( @"AppleWallet Plugin: Check isInWallet" );
-        NSLog( @"AppleWallet Plugin: [paymentPass primaryAccountNumberSuffix]: '%@'", [paymentPass primaryAccountNumberSuffix] );
-        NSLog( @"AppleWallet Plugin: suffix: '%@'", suffix );
         if( [paymentPass primaryAccountNumberSuffix] isEqualToString:suffix ) {
             [dictionary setObject:@"True" forKey:@"isInWallet"];
             //[dictionary setObject:[paymentPass primaryAccountNumberSuffix] forKey:@"FPANID"];
@@ -194,9 +182,6 @@ typedef void (^completedPaymentProcessHandler)(PKAddPaymentPassRequest *request)
 
     // find if credit/debit card is exist in any remote pass container e.g. iWatch
     for (PKPaymentPass *remotePass in [passLib remotePaymentPasses]){
-        NSLog( @"AppleWallet Plugin: Check isInWatch" );
-        NSLog( @"AppleWallet Plugin: remotePass.primaryAccountNumberSuffix: '%@'", remotePass.primaryAccountNumberSuffix );
-        NSLog( @"AppleWallet Plugin: suffix: '%@'", suffix );
         if([remotePass.primaryAccountNumberSuffix isEqualToString:suffix]){
             [dictionary setObject:@"True" forKey:@"isInWatch"];
             [dictionary setObject:remotePass.primaryAccountIdentifier forKey:@"FPANID"];
@@ -420,11 +405,6 @@ typedef void (^completedPaymentProcessHandler)(PKAddPaymentPassRequest *request)
         NSString* encryptedPassData = [options objectForKey:@"encryptedPassData"];
         NSString* wrappedKey = [options objectForKey:@"wrappedKey"];
         NSString* ephemeralPublicKey = [options objectForKey:@"ephemeralPublicKey"];
-
-        NSLog( @"AppleWallet Plugin: activationData: '%@'", activationData );
-        NSLog( @"AppleWallet Plugin: encryptedPassData: '%@'", encryptedPassData );
-        NSLog( @"AppleWallet Plugin: wrappedKey: '%@'", wrappedKey );
-        NSLog( @"AppleWallet Plugin: ephemeralPublicKey: '%@'", ephemeralPublicKey );
 
         request.activationData = [[NSData alloc] initWithBase64EncodedString:activationData options:0]; //[activationData dataUsingEncoding:NSUTF8StringEncoding];
         request.encryptedPassData = [[NSData alloc] initWithBase64EncodedString:encryptedPassData options:0];
