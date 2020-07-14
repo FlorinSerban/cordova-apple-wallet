@@ -160,7 +160,6 @@ typedef void (^completedPaymentProcessHandler)(PKAddPaymentPassRequest *request)
     [dictionary setObject:@"False" forKey:@"isInWatch"];
     [dictionary setObject:@"" forKey:@"FPANID"];
     PKPassLibrary *passLib = [[PKPassLibrary alloc] init];
-    NSArray<PKPass *> *paymentPasses = [passLib passesOfType:PKPassTypePayment];
 
     // find if credit/debit card is exist in any pass container e.g. iPad
     for (PKPaymentPass *pass in [passLib passesOfType:PKPassTypePayment]){
@@ -170,15 +169,6 @@ typedef void (^completedPaymentProcessHandler)(PKAddPaymentPassRequest *request)
             break;
         }
     }
-
-    /*for (PKPass *pass in paymentPasses) {
-        PKPaymentPass *paymentPass = [pass paymentPass];
-        if( [paymentPass primaryAccountNumberSuffix] isEqualToString:suffix ) {
-            [dictionary setObject:@"True" forKey:@"isInWallet"];
-            //[dictionary setObject:[paymentPass primaryAccountNumberSuffix] forKey:@"FPANID"];
-            break;
-        }
-    }*/
 
     // find if credit/debit card is exist in any remote pass container e.g. iWatch
     for (PKPaymentPass *remotePass in [passLib remotePaymentPasses]){
