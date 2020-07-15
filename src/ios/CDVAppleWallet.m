@@ -304,31 +304,31 @@ typedef void (^completedPaymentProcessHandler)(PKAddPaymentPassRequest *request)
     }
 }
 
-- (NSString *) hexStringFromData:(NSData *)data
-{
-    NSUInteger bytesCount = data.length;
-    if (bytesCount) {
-        const char *hexChars = "0123456789ABCDEF";
-        const unsigned char *dataBuffer = data.bytes;
-        char *chars = malloc(sizeof(char) * (bytesCount * 2 + 1));
-        if (chars == NULL) {
-            // malloc returns null if attempting to allocate more memory than the system can provide
-            [NSException raise:@"NSInternalInconsistencyException" format:@"Failed to allocate more memory" arguments:nil];
-            return nil;
-        }
-        char *s = chars;
-        for (unsigned i = 0; i < bytesCount; ++i) {
-            *s++ = hexChars[((*dataBuffer & 0xF0) >> 4)];
-            *s++ = hexChars[(*dataBuffer & 0x0F)];
-            dataBuffer++;
-        }
-        *s = '\0';
-        NSString *hexString = [NSString stringWithUTF8String:chars];
-        free(chars);
-        return hexString;
-    }
-    return @"";
-}
+// - (NSString *) hexStringFromData:(NSData *)data
+// {
+//     NSUInteger bytesCount = data.length;
+//     if (bytesCount) {
+//         const char *hexChars = "0123456789ABCDEF";
+//         const unsigned char *dataBuffer = data.bytes;
+//         char *chars = malloc(sizeof(char) * (bytesCount * 2 + 1));
+//         if (chars == NULL) {
+//             // malloc returns null if attempting to allocate more memory than the system can provide
+//             [NSException raise:@"NSInternalInconsistencyException" format:@"Failed to allocate more memory" arguments:nil];
+//             return nil;
+//         }
+//         char *s = chars;
+//         for (unsigned i = 0; i < bytesCount; ++i) {
+//             *s++ = hexChars[((*dataBuffer & 0xF0) >> 4)];
+//             *s++ = hexChars[(*dataBuffer & 0x0F)];
+//             dataBuffer++;
+//         }
+//         *s = '\0';
+//         NSString *hexString = [NSString stringWithUTF8String:chars];
+//         free(chars);
+//         return hexString;
+//     }
+//     return @"";
+// }
 
 - (void) addPaymentPassViewController:(PKAddPaymentPassViewController *)controller
  generateRequestWithCertificateChain:(NSArray<NSData *> *)certificates
@@ -344,8 +344,8 @@ typedef void (^completedPaymentProcessHandler)(PKAddPaymentPassRequest *request)
     // the leaf certificate will be the first element of that array and the sub-CA certificate will follow.
     NSString *certificateOfIndexZeroString = [certificates[0] base64EncodedStringWithOptions:0];
     NSString *certificateOfIndexOneString = [certificates[1] base64EncodedStringWithOptions:0];
-    NSString *nonceString = [self hexStringFromData:nonce];
-    NSString *nonceSignatureString = [self hexStringFromData:nonceSignature];
+    NSString *nonceString = [nonce base64EncodedStringWithOptions:0];
+    NSString *nonceSignatureString = [nonceSignature base64EncodedStringWithOptions:0];
     
     NSDictionary* dictionary = @{ @"data" :
                                       @{
