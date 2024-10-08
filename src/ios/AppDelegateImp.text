@@ -23,7 +23,7 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication*)application 
-    didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
+    didFinishLaunchingWithOptions:(NSDictionary<UIApplicationLaunchOptionsKey, id> *)launchOptions
 {
     self.isPairedWatchExist = NO;
     self.viewController = [[MainViewController alloc] init];
